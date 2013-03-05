@@ -1,10 +1,10 @@
 /******************************************************************
-Por: Rogger Vásquez , Enero 2011
+Por: Rogger VÃ¡squez , Enero 2011
 Clase Diccionario utilizando clases STL (list, map, multimap)
 Y guardandose en archivos XML (usando los XMLSTREAM de QT)
 
 - Todavia se tienen que revisar y hacer algunas validaciones (comentadas)
-- El proposito es la aplicación de Containers de STL y los mas usados
+- El proposito es la aplicaciÃ³n de Containers de STL y los mas usados
   Generalmente las listas, maps, multimaps.
 ******************************************************************/
 
