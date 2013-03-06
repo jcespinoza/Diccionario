@@ -30,7 +30,7 @@
      <attribute name="title">
       <string>AddWord</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -76,6 +76,30 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pbReload">
+           <property name="text">
+            <string>Recargar Lista</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QTableWidget" name="tbWords">
          <property name="columnCount">
           <number>3</number>
@@ -83,6 +107,32 @@
          <column/>
          <column/>
          <column/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>477</x>
+        <y>460</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="pbSave">
+         <property name="text">
+          <string>Guardar Diccionario</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbExit">
+         <property name="text">
+          <string>Salir</string>
+         </property>
         </widget>
        </item>
       </layout>

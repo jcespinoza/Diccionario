@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "diccionario.h"
+#include <QTableWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -19,9 +20,16 @@ public:
 private slots:
     void on_pbAddWord_clicked();
 
+    void on_pbSave_clicked();
+
+    void on_pbExit_clicked();
+
+    void on_pbReload_clicked();
+
 private:
     Ui::MainWindow *ui;
     Diccionario *dictionary;
+    QTableWidgetItem* items;
 
     void setUI();
     void loadIntoTable();
