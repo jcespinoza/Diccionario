@@ -16,9 +16,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
+private slots:
+    void on_pbAddWord_clicked();
+
 private:
     Ui::MainWindow *ui;
     Diccionario *dictionary;
+
+    void setUI();
+    void loadIntoTable();
 };
 
 #endif // MAINWINDOW_H
