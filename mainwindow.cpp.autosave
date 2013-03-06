@@ -87,5 +87,6 @@ void MainWindow::on_pbTagWord_clicked()
     int index = ui->tbWords->currentRow();
     if(index != -1){
         QString tags = ui->leTags->text().trimmed();
+        ui->tbWords->item();
     }
 }

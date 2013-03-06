@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "diccionario.h"
 #include <QTableWidgetItem>
+#include <QList>
 
 namespace Ui {
 class MainWindow;
@@ -26,10 +27,12 @@ private slots:
 
     void on_pbReload_clicked();
 
+    void on_pbTagWord_clicked();
+
 private:
     Ui::MainWindow *ui;
     Diccionario *dictionary;
-    QTableWidgetItem* items;
+    QList<QTableWidgetItem*> items;
 
     void setUI();
     void loadIntoTable();

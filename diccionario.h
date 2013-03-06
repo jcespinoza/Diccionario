@@ -31,6 +31,7 @@ class Diccionario
 private:
      map<string,WordInfo> lPalabras;
      multimap<string,string> lTagsDiccionario;
+     map<char, map<string, WordInfo> > otro;
      string sFileName;
      QXmlStreamWriter xmlW;
      QXmlStreamReader xmlR;
