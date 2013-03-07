@@ -147,7 +147,6 @@ bool Diccionario::tagword(string palabra, string tag)
 
       }
       return true;
-
     }
    else
       return false;
@@ -167,6 +166,11 @@ bool Diccionario::deleteWord(string palabra)
          return true;
      }
 }
+
+void Diccionario::deleteFromTag(string){
+;
+}
+
 bool Diccionario::existsWord(string palabra)
 {
    // Se puede usar el Find o se puede indexar directamente
@@ -252,8 +256,6 @@ list<string> Diccionario::getAllWords()
 list<string> Diccionario::getAllTags()
 {
     list<string> lista_temporal;
-    //TODO - Logica para recorrer el multimap y solo insertar un TAG
-    // a la vez en la lista sin repetirlos y sin estar usando FIND
 
     return lista_temporal;
 }
@@ -286,6 +288,3 @@ Diccionario::~Diccionario()
     this->lPalabras.clear();
     this->lTagsDiccionario.clear();
 }
-
-
-

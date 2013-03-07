@@ -55,6 +55,7 @@ public:
     list<string> getWordsbyTag(string tag);
     list<string> getAllWords();
     list<string> getAllTags();
+    void deleteFromTag(string);
 
 
     bool loadDictionary();

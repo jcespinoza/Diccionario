@@ -88,6 +88,6 @@ void MainWindow::on_pbTagWord_clicked()
     if(index != -1){
         QString tags = ui->leTags->text().trimmed();
         string pal = ui->tbWords->item(index, 0)->text().toStdString();
-        dictionary->tagword(pal, tags);
+        dictionary->tagword(pal, tags.toStdString());
     }
 }
