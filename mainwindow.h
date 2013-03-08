@@ -20,19 +20,21 @@ public:
     
 private slots:
     void on_pbAddWord_clicked();
-
     void on_pbSave_clicked();
-
     void on_pbExit_clicked();
-
     void on_pbReload_clicked();
-
     void on_pbTagWord_clicked();
+
+    void on_leTags_returnPressed();
+    void on_leWord_returnPressed();
+
+    void on_pbDelete_clicked();
 
 private:
     Ui::MainWindow *ui;
     Diccionario *dictionary;
     QList<QTableWidgetItem*> items;
+    void tagWord();
 
     void setUI();
     void loadIntoTable();

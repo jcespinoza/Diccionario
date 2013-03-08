@@ -35,7 +35,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>381</width>
+        <width>431</width>
         <height>481</height>
        </rect>
       </property>
@@ -85,6 +85,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Tag:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLineEdit" name="leTags"/>
          </item>
          <item>
@@ -105,6 +112,30 @@
          <column/>
          <column/>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QPushButton" name="pbDelete">
+           <property name="text">
+            <string>Borrar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -163,6 +194,18 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>leWord</tabstop>
+  <tabstop>pbAddWord</tabstop>
+  <tabstop>teMeaning</tabstop>
+  <tabstop>pbReload</tabstop>
+  <tabstop>leTags</tabstop>
+  <tabstop>pbTagWord</tabstop>
+  <tabstop>tbWords</tabstop>
+  <tabstop>pbSave</tabstop>
+  <tabstop>pbExit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

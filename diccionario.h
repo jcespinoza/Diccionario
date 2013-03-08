@@ -38,6 +38,7 @@ private:
      bool writeFile(QIODevice *device);
      bool readFile(QIODevice *device);
      void readDiccionario();
+    void deleteFromTag(string);
 
 
 public:
@@ -55,7 +56,6 @@ public:
     list<string> getWordsbyTag(string tag);
     list<string> getAllWords();
     list<string> getAllTags();
-    void deleteFromTag(string);
 
 
     bool loadDictionary();

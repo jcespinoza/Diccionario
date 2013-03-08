@@ -53,6 +53,7 @@ void MainWindow::loadIntoTable(){
             qTags.append(QString::fromStdString(*itag) + ",");
         ui->tbWords->setItem(i, 0, new QTableWidgetItem(pal));
         ui->tbWords->setItem(i, 1, new QTableWidgetItem(sig));
+        ui->tbWords->setItem(i, 2, new QTableWidgetItem(qTags));
     }
 }
 
@@ -69,6 +70,8 @@ void MainWindow::on_pbSave_clicked()
     if(!dictionary->saveDictionary()){
         QMessageBox::warning(this, "Error", "Un error ocurrio al intentar guardar el diccionario.",
                              QMessageBox::Ok);
+    }else{
+        QMessageBox::information(this, "Succes!", "El diccionario se guardo exitosamente.", QMessageBox::Ok);
     }
 }
 
@@ -84,10 +87,41 @@ void MainWindow::on_pbReload_clicked()
 
 void MainWindow::on_pbTagWord_clicked()
 {
+    tagWord();
+    list<string>::iterator it;
+    list<string> tags = dictionary->getAllTags();
+    qDebug() << "TAGS:";
+    for(it = tags.begin(); it != tags.end(); it++){
+        qDebug() << "->" << QString::fromStdString(*it);
+    }
+}
+
+void MainWindow::tagWord(){
     int index = ui->tbWords->currentRow();
     if(index != -1){
         QString tags = ui->leTags->text().trimmed();
         string pal = ui->tbWords->item(index, 0)->text().toStdString();
         dictionary->tagword(pal, tags.toStdString());
+        ui->leTags->clear();
+    }
+}
+
+void MainWindow::on_leTags_returnPressed()
+{
+    tagWord();
+}
+
+void MainWindow::on_leWord_returnPressed()
+{
+    on_pbAddWord_clicked();
+}
+
+void MainWindow::on_pbDelete_clicked()
+{
+    int index = ui->tbWords->currentRow();
+    if(index != -1){
+        string word = ui->tbWords->item(index, 0)->text().toStdString();
+        dictionary->deleteWord(word);
+        loadIntoTable();
     }
 }

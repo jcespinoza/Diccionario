@@ -1,4 +1,5 @@
 #include "diccionario.h"
+#include <QDebug>
 
 //METODOS PRIVATE **************************
 
@@ -163,12 +164,9 @@ bool Diccionario::deleteWord(string palabra)
      else
      {
          this->lPalabras.erase(it);
+         deleteFromTag(palabra);
          return true;
      }
-}
-
-void Diccionario::deleteFromTag(string){
-;
 }
 
 bool Diccionario::existsWord(string palabra)
@@ -225,7 +223,7 @@ int Diccionario::getWordCount() const
 list<string> Diccionario::getWordsbyTag(string tag)
 {
     list<string> temp;
-    pair<multimap<string,string>::iterator,multimap<string,string>::iterator > itrange;
+    pair< multimap<string,string>::iterator, multimap<string,string>::iterator > itrange;
     itrange = this->lTagsDiccionario.equal_range(tag);
     for (multimap<string, string>::iterator it1 = itrange.first;
          it1 != itrange.second
@@ -236,7 +234,6 @@ list<string> Diccionario::getWordsbyTag(string tag)
              temp.push_back((*it1).second);
         else
             continue; // Aca deberia haber codigo para borrar esa entrada del multimap
-
     }
 
     return temp;
@@ -256,8 +253,28 @@ list<string> Diccionario::getAllWords()
 list<string> Diccionario::getAllTags()
 {
     list<string> lista_temporal;
-
+    multimap<string, string>::iterator it;
+    for(it = lTagsDiccionario.begin(); it != lTagsDiccionario.end(); it++){
+        string temp = (*it).first;
+        //Buscar la palabra en la lista que se esta creando primero
+        if(find(lista_temporal.begin(), lista_temporal.end(), temp)
+                == lista_temporal.end())
+            lista_temporal.push_back(temp);
+    }
     return lista_temporal;
+}
+
+void Diccionario::deleteFromTag(string word){
+    multimap<string,string>::iterator iter;
+    for(iter = lTagsDiccionario.begin(); iter != lTagsDiccionario.end();){
+        qDebug() << QString::fromStdString(word) << ":" << QString::fromStdString((*iter).second) << "in tag " << QString::fromStdString((*iter).first);
+        if((*iter).second == word){
+            qDebug() << "YES!";
+            lTagsDiccionario.erase(iter++);
+            qDebug() << "Did it!";
+        }else
+            ++iter;
+    }
 }
 
 bool Diccionario::saveDictionary()
