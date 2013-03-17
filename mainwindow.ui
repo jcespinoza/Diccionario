@@ -139,28 +139,18 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>450</x>
-        <y>10</y>
-        <width>351</width>
-        <height>481</height>
+        <x>460</x>
+        <y>30</y>
+        <width>341</width>
+        <height>461</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="chkAllTags">
-         <property name="text">
-          <string>All tags</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <widget class="QGraphicsView" name="graphTags"/>
        </item>
       </layout>
      </widget>

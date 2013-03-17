@@ -5,6 +5,7 @@
 #include "diccionario.h"
 #include <QTableWidgetItem>
 #include <QList>
+#include <QPushButton>
 
 namespace Ui {
 class MainWindow;
@@ -24,21 +25,22 @@ private slots:
     void on_pbExit_clicked();
     void on_pbReload_clicked();
     void on_pbTagWord_clicked();
-
     void on_leTags_returnPressed();
     void on_leWord_returnPressed();
-
     void on_pbDelete_clicked();
+    void stdTagClicked();
 
 private:
     Ui::MainWindow *ui;
     Diccionario *dictionary;
-    QList<QTableWidgetItem*> items;
     void tagWord();
+    bool layoutSet;
 
     void setUI();
     void loadIntoTable();
     void loadTags();
+    void loadWithFilter(QString);
+    QPushButton *createTagElement(QString, QString, int, bool append=true);
 };
 
 #endif // MAINWINDOW_H

@@ -1,0 +1,8 @@
+#tagLabel{
+	background-color:red;
+}
+
+#tagLabel::hover{
+	background-color:blue;
+	font-size:20;
+}

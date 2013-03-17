@@ -8,14 +8,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    items = QList<QTableWidgetItem*>();
     dictionary = new Diccionario("diccionario.xml");
     dictionary->loadDictionary();
     loadIntoTable();
+    layoutSet = false;
     loadTags();
 
     setUI();
-
 }
 
 MainWindow::~MainWindow()
@@ -34,28 +33,7 @@ void MainWindow::setUI(){
 }
 
 void MainWindow::loadIntoTable(){
-    ui->tbWords->clearContents();
-    ui->tbWords->setRowCount(dictionary->getWordCount());
-    ui->tbWords->horizontalHeader()->resizeSection(1,200);
-    items.clear();
-    if(dictionary->getWordCount() <= 0)
-        return;
-    list<string> words = dictionary->getAllWords();
-    list<string>::iterator iter;
-    int i;
-    for(iter = words.begin(), i = 0; iter != words.end(), i < dictionary->getWordCount(); iter++, i++){
-        WordInfo temp = dictionary->getWordInfo(*iter);
-        QString pal = QString::fromStdString(*iter);
-        QString sig = QString::fromStdString(temp.sMeaning);
-        list<string> tags = temp.tags;
-        list<string>::iterator itag;
-        QString qTags;
-        for(itag = tags.begin(); itag != tags.end(); itag++)
-            qTags.append(QString::fromStdString(*itag) + ",");
-        ui->tbWords->setItem(i, 0, new QTableWidgetItem(pal));
-        ui->tbWords->setItem(i, 1, new QTableWidgetItem(sig));
-        ui->tbWords->setItem(i, 2, new QTableWidgetItem(qTags));
-    }
+    loadWithFilter("");
 }
 
 void MainWindow::on_pbAddWord_clicked()
@@ -89,15 +67,6 @@ void MainWindow::on_pbReload_clicked()
 void MainWindow::on_pbTagWord_clicked()
 {
     tagWord();
-    /*list<string>::iterator it;
-    list<string> tags = dictionary->getAllTags();
-    qDebug() << "TAGS:";
-    for(it = tags.begin(); it != tags.end(); it++)
-        qDebug() << "->" << QString::fromStdString(*it);*/
-    map<char,int> let = dictionary->countLetters();
-    map<char,int>::iterator ite;
-    for(ite = let.begin(); ite != let.end(); ite++)
-        qDebug() << "Letter"<<QChar::fromLatin1((*ite).first)<<":"<<(*ite).second;
 }
 
 void MainWindow::tagWord(){
@@ -113,20 +82,6 @@ void MainWindow::tagWord(){
 void MainWindow::on_leTags_returnPressed()
 {
     tagWord();
-    /*qDebug() << "Words starting with K";
-    list<string> lista = dictionary->getWordsStartingWith('K');
-    list<string>::iterator it;
-    for(it = lista.begin(); it != lista.end(); it++){
-        qDebug() << QString::fromStdString(*it);
-    }*/
-    qDebug() << "Words by tags animal, numero";
-    list<string> tags;
-    tags.push_back("animal");
-    tags.push_back("numero");
-    list<string> lista = dictionary->getWordsbyTags(tags);
-    list<string>::iterator it2;
-    for(it2 = lista.begin(); it2 != lista.end(); it2++)
-        qDebug() << QString::fromStdString(*it2);
 }
 
 void MainWindow::on_leWord_returnPressed()
@@ -140,14 +95,71 @@ void MainWindow::on_pbDelete_clicked()
     if(index != -1){
         string word = ui->tbWords->item(index, 0)->text().toStdString();
         dictionary->deleteWord(word);
-        loadIntoTable();
+        loadTags();
+        loadWithFilter("");
     }
 }
 
 void MainWindow::loadTags(){
     map<string,int> tags = dictionary->getTagsWithCount();
     map<string,int>::iterator mit;
+    QGridLayout* gridTags = new QGridLayout();
+    if(!layoutSet)
+        ui->graphTags->setLayout(gridTags);
     for(mit = tags.begin(); mit != tags.end(); mit++){
-        qDebug() << "Tag:" << QString::fromStdString((*mit).first) << "Words:" << (*mit).second;
+        /*QLabel* lt = new QLabel(QString::fromStdString((*mit).first).append("(").append(QString::number((*mit).second)).append(")"), this);*/
+        QPushButton* lt = createTagElement(QString::fromStdString((*mit).first),QString::fromStdString((*mit).first), (*mit).second);
+        gridTags->addWidget(lt);
     }
+    QPushButton* all = createTagElement("All", "", 1, false);
+    gridTags->addWidget(all);
+    layoutSet = true;
+}
+
+void MainWindow::loadWithFilter(QString filter){
+    ui->tbWords->clearContents();
+    ui->tbWords->horizontalHeader()->resizeSection(1,200);
+    if(dictionary->getWordCount() <= 0)
+        return;
+    list<string> words;
+    if(filter.isEmpty())
+         words = dictionary->getAllWords();
+    else
+        words = dictionary->getWordsbyTag(filter.toStdString());
+    ui->tbWords->setRowCount(words.size());
+    list<string>::iterator iter;
+    int i;
+    for(iter = words.begin(), i = 0; iter != words.end(), i < words.size(); iter++, i++){
+        WordInfo temp = dictionary->getWordInfo(*iter);
+        QString pal = QString::fromStdString(*iter);
+        QString sig = QString::fromStdString(temp.sMeaning);
+        list<string> tags = temp.tags;
+        list<string>::iterator itag;
+        QString qTags;
+        for(itag = tags.begin(); itag != tags.end(); itag++)
+            qTags.append(QString::fromStdString(*itag) + ",");
+        ui->tbWords->setItem(i, 0, new QTableWidgetItem(pal));
+        ui->tbWords->setItem(i, 1, new QTableWidgetItem(sig));
+        ui->tbWords->setItem(i, 2, new QTableWidgetItem(qTags));
+    }
+}
+
+void MainWindow::stdTagClicked(){
+    QString filter = QObject::sender()->property("tag").toString();
+    loadWithFilter(filter);
+}
+
+QPushButton* MainWindow::createTagElement(QString text, QString tag, int count, bool appendCount){
+    QPushButton* lt = new QPushButton(text, this);
+    if(appendCount)
+        lt->setText(text.append("(").append(QString::number(count)).append(")"));
+    lt->setStyleSheet("background-color:transparent");
+    lt->setStyleSheet(":hover{background-color: red; font-size: 200%}:pressed{border-radius:5px}:default{background-color:blue}");
+    lt->setProperty("tag", tag);
+    lt->setProperty("words", count);
+    QFont f = lt->font();
+    f.setPixelSize(f.pixelSize() + 14 + 2*count);
+    lt->setFont(f);
+    connect(lt, SIGNAL(clicked()), this, SLOT(stdTagClicked()));
+    return lt;
 }
