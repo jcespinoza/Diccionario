@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     dictionary = new Diccionario("diccionario.xml");
     dictionary->loadDictionary();
     loadIntoTable();
+    loadTags();
 
     setUI();
 
@@ -140,5 +141,13 @@ void MainWindow::on_pbDelete_clicked()
         string word = ui->tbWords->item(index, 0)->text().toStdString();
         dictionary->deleteWord(word);
         loadIntoTable();
+    }
+}
+
+void MainWindow::loadTags(){
+    map<string,int> tags = dictionary->getTagsWithCount();
+    map<string,int>::iterator mit;
+    for(mit = tags.begin(); mit != tags.end(); mit++){
+        qDebug() << "Tag:" << QString::fromStdString((*mit).first) << "Words:" << (*mit).second;
     }
 }

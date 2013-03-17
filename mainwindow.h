@@ -38,6 +38,7 @@ private:
 
     void setUI();
     void loadIntoTable();
+    void loadTags();
 };
 
 #endif // MAINWINDOW_H

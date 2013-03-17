@@ -60,7 +60,9 @@ public:
     map<char, int> countLetters();
     list<string> getWordsbyTags(list<string>);
     bool hasTag(string pal, string);
-    int hasTags(list<string>, pal);
+    int hasTags(list<string>, string pal);
+    map<string, int> getTagsWithCount();
+    int getWordCount(string tag);
 
 
     bool loadDictionary();

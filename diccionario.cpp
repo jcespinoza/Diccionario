@@ -359,7 +359,7 @@ bool Diccionario::hasTag(string pal,string tag){
 }
 
 /*Util para hacer Queries del tipo &&*/
-int Diccionario::hasTags(list<string> tags, pal){
+int Diccionario::hasTags(list<string> tags, string pal){
     int counter = 0;
     list<string> oriTags = getWordInfo(pal).tags;
     list<string>::iterator it;
@@ -368,4 +368,18 @@ int Diccionario::hasTags(list<string> tags, pal){
             counter++;
     }
     return counter;
+}
+
+map<string,int> Diccionario::getTagsWithCount(){
+    map<string,int> ret;
+    list<string> tags = getAllTags();
+    list<string>::iterator tit;
+    for(tit = tags.begin(); tit != tags.end(); tit++){
+        ret.insert(pair<string,int>(*tit, getWordCount(*tit)));
+    }
+    return ret;
+}
+
+int Diccionario::getWordCount(string tag){
+    return getWordsbyTag(tag).size();
 }
