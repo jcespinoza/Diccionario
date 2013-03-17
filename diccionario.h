@@ -56,6 +56,11 @@ public:
     list<string> getWordsbyTag(string tag);
     list<string> getAllWords();
     list<string> getAllTags();
+    list<string> getWordsStartingWith(char);
+    map<char, int> countLetters();
+    list<string> getWordsbyTags(list<string>);
+    bool hasTag(string pal, string);
+    int hasTags(list<string>, pal);
 
 
     bool loadDictionary();

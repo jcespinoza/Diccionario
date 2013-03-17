@@ -88,12 +88,15 @@ void MainWindow::on_pbReload_clicked()
 void MainWindow::on_pbTagWord_clicked()
 {
     tagWord();
-    list<string>::iterator it;
+    /*list<string>::iterator it;
     list<string> tags = dictionary->getAllTags();
     qDebug() << "TAGS:";
-    for(it = tags.begin(); it != tags.end(); it++){
-        qDebug() << "->" << QString::fromStdString(*it);
-    }
+    for(it = tags.begin(); it != tags.end(); it++)
+        qDebug() << "->" << QString::fromStdString(*it);*/
+    map<char,int> let = dictionary->countLetters();
+    map<char,int>::iterator ite;
+    for(ite = let.begin(); ite != let.end(); ite++)
+        qDebug() << "Letter"<<QChar::fromLatin1((*ite).first)<<":"<<(*ite).second;
 }
 
 void MainWindow::tagWord(){
@@ -109,6 +112,20 @@ void MainWindow::tagWord(){
 void MainWindow::on_leTags_returnPressed()
 {
     tagWord();
+    /*qDebug() << "Words starting with K";
+    list<string> lista = dictionary->getWordsStartingWith('K');
+    list<string>::iterator it;
+    for(it = lista.begin(); it != lista.end(); it++){
+        qDebug() << QString::fromStdString(*it);
+    }*/
+    qDebug() << "Words by tags animal, numero";
+    list<string> tags;
+    tags.push_back("animal");
+    tags.push_back("numero");
+    list<string> lista = dictionary->getWordsbyTags(tags);
+    list<string>::iterator it2;
+    for(it2 = lista.begin(); it2 != lista.end(); it2++)
+        qDebug() << QString::fromStdString(*it2);
 }
 
 void MainWindow::on_leWord_returnPressed()

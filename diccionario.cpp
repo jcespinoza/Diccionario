@@ -267,11 +267,8 @@ list<string> Diccionario::getAllTags()
 void Diccionario::deleteFromTag(string word){
     multimap<string,string>::iterator iter;
     for(iter = lTagsDiccionario.begin(); iter != lTagsDiccionario.end();){
-        qDebug() << QString::fromStdString(word) << ":" << QString::fromStdString((*iter).second) << "in tag " << QString::fromStdString((*iter).first);
         if((*iter).second == word){
-            qDebug() << "YES!";
             lTagsDiccionario.erase(iter++);
-            qDebug() << "Did it!";
         }else
             ++iter;
     }
@@ -304,4 +301,71 @@ Diccionario::~Diccionario()
 {
     this->lPalabras.clear();
     this->lTagsDiccionario.clear();
+}
+
+map<char, int> Diccionario::countLetters(){
+    map<char,int> letters;
+    list<string> words = getAllWords();
+    list<string>::iterator ite;
+    for(ite = words.begin(); ite != words.end(); ite++){
+        QString temp = QString::fromStdString(*ite);
+        char let = temp.at(0).toLatin1();
+        map<char,int>::iterator donde = letters.find(let);
+        if(donde==letters.end())
+            letters.insert(pair<char,int>(let,1));
+        else
+            (*donde).second += 1;
+    }
+    return letters;
+}
+
+list<string> Diccionario::getWordsStartingWith(char letra){
+    list<string> tWords;
+    list<string> words = getAllWords();
+    list<string>::iterator iter;
+    for(iter = words.begin(); iter != words.end(); iter++){
+        char cara = QString::fromStdString(*iter).at(0).toLatin1();
+        if( cara == letra)
+            tWords.push_back(*iter);
+    }
+    return tWords;
+}
+
+list<string> Diccionario::getWordsbyTags(list<string> tags){
+    list<string> tWords;
+    list<string> myWords = getAllWords();
+    list<string>::iterator palit;
+    list<string>::iterator tagit;
+    for(palit = myWords.begin(); palit != myWords.end(); palit++){
+        for(tagit = tags.begin(); tagit != tags.end(); tagit++){
+            if(hasTag(*palit, *tagit)){
+                tWords.push_back(*palit);
+                break;
+            }
+        }
+    }
+    return tWords;
+}
+
+bool Diccionario::hasTag(string pal,string tag){
+    list<string>::iterator it;
+    list<string> tags = getWordInfo(pal).tags;
+    for(it = tags.begin(); it != tags.end(); it++){
+        if(tag == *it){
+            return true;
+        }
+    }
+    return false;
+}
+
+/*Util para hacer Queries del tipo &&*/
+int Diccionario::hasTags(list<string> tags, pal){
+    int counter = 0;
+    list<string> oriTags = getWordInfo(pal).tags;
+    list<string>::iterator it;
+    for(it = oriTags.begin(); it != oriTags.end(); it++){
+        if(find(tags.begin(), tags.end(), *it) != tags.end())
+            counter++;
+    }
+    return counter;
 }
